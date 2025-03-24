@@ -4,8 +4,7 @@
 이 프로젝트는 **LG aimers 5기 해커톤** 에서 진행한 팀 프로젝트로, **차량용 디스플레이의 제조 공정에서 발생하는 불량들을 잘 예측하고 판별할 수 있는 AI 모델**을 개발하고자 하였습니다.     
 
 📌 **발표 자료 및 코드**  
-🔗 [발표 자료 다운로드](링크)  
-🔗 [코드 저장소](링크)
+🔗 [코드 저장소](https://github.com/HyeyoonKim0711/LG_aimers_5th/blob/main/online_final_code.ipynb)
 
 
 ---
@@ -24,15 +23,23 @@
 
 
 ---
+## 👥 참여 인원
+5명
+
+---
+## ✅ 역할
+EDA, 하이퍼파라미터 튜닝
+
+---
 
 
 ## 📊 **프로젝트 개요**
-- **사용된 데이터셋**: Sub Assembly Line(부품 조합 라인)에서 수집된 다양한 데이터
+- **사용된 데이터셋**: Sub Assembly Line(부품 조합 라인)에서 수집된 다양한 데이터 (Train (40506, 469), Test (17361, 468s))
 - **데이터 설명**: 차량용 디스플레이의 제조 과정 중 Resin 도포 및 반경화 과정과 탈포 과정에서 수집됨
-- **해결하고자 한 문제**: 최종적으로 생산된 디스플레이가 AbNormal인지 Normal인지 분류하는 **Binary Classification** 문제
+- **주요 과제**: 최종적으로 생산된 디스플레이가 AbNormal인지 Normal인지 분류하는 **Binary Classification** 문제
 - **핵심 목표**:
   - 불량 발생 여부를 사전에 예측하는 AI 모델 개발
-  - 실시간 공정 품질 모니터링을 위한 솔루션 제안
+  - target이 매우 불균형한 불균형 데이터 처리
 
 ---
 
@@ -57,24 +64,32 @@
 - 다양한 Machine Learning 기법들의 성능 비교
   - 가장 성능이 좋았던 모델인 **Catboost**를 중점적으로 모델링
   - 최종 평가 지표인 F1-score 뿐만 아니라 Accuracy, Precision, Recall과 같은 평가지표도 함께 고려
+- catboost의 **cat_features** 파라미터를 이용해 변수들을 범주형으로 처리
 - **Optuna**를 이용한 하이퍼파라미터 튜닝
   - 불균형이 매우 심한 데이터이므로 파라미터 중 **class weights**를 조정
-- train-validation split seed를 바꾸고 K-fold Validation을 통해 다양한 seed에서 안정적인 성능을 보이는 모델을 선택
+- train-validation split seed를 바꾸고 K-fold Validation을 통해 다양한 seed에서 Robust한 성능을 보이는 모델을 선택
 - 모델의 과적합을 막기 위해 최종 모델은 **6개의 Catboost 모델을 Soft Voting한 Ensemble Model**을 선택
 
 ---
 
 
 ## 📈 **최종 모델 성능 (F1-score)**
-| 모델 | Private | Public | 
+| 모델 | Public | Private | 
 |------|------------|------------|
 | (Online) Catboost Ensemble Model | 0.2377 | 0.2609 | 
-| (Offline) Catboost | 0.2847 | 0.2972 |
+| (Offline) Catboost Ensemble Model | 0.2847 | 0.2972 |
 
 ---
 
-## 🚀 **실제 적용 방안**
-- **스마트 팩토리와의 연계**: 실시간 공정 모니터링 시스템에 AI 예측 모델을 탑재
+## 🚀 **적용 가능성**
 - **생산 효율 개선**: 공정 불량을 사전에 감지하여 원재료 낭비 최소화
-- **확장 가능성**: 반도체, 자동차 제조 등 다양한 산업군에 적용 가능
+- **스마트 팩토리와의 연계**: 실시간 공정 모니터링 시스템에 AI 예측 모델을 탑재
+- **다양한 산업군으로 확장**: 반도체, 자동차 제조 등 다양한 산업군에 적용 가능
 
+---
+
+## ✍️ 분석 의의
+- 데이터가 밀리는 등 실제 현업에서 사용되는 데이터에 발생할 수 있는 문제점을 경험하고 이를 해결함
+- 생산 공정에서 중요한 역할을 하는 변수에 대해 공부
+- 불균형이 심한 데이터를 핸들링
+- 과적합을 막고 robust한 모델을 구축
